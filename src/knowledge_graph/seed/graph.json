@@ -1,0 +1,351 @@
+{
+  "version": 1,
+  "entry_points": [
+    "system.overview"
+  ],
+  "nodes": [
+    {
+      "id": "system.overview",
+      "title": "Documentation system",
+      "type": "system",
+      "summary": "Purpose of the knowledge graph and entry points for humans and AI agents.",
+      "tags": [
+        "documentation",
+        "graph",
+        "overview"
+      ],
+      "content": "content/system.overview.md",
+      "translations": {
+        "ru": {
+          "title": "Система документации",
+          "summary": "Назначение графа знаний и точки входа для человека и ИИ.",
+          "tags": [
+            "документация",
+            "граф",
+            "обзор"
+          ],
+          "content": "content/ru/system.overview.md"
+        }
+      }
+    },
+    {
+      "id": "system.format",
+      "title": "Database format",
+      "type": "reference",
+      "summary": "JSON structure, node fields and Markdown documents.",
+      "tags": [
+        "format",
+        "JSON",
+        "Markdown",
+        "ID"
+      ],
+      "content": "content/system.format.md",
+      "translations": {
+        "ru": {
+          "title": "Формат базы",
+          "summary": "Структура JSON, поля узлов и Markdown-документы.",
+          "tags": [
+            "формат",
+            "JSON",
+            "Markdown",
+            "ID"
+          ],
+          "content": "content/ru/system.format.md"
+        }
+      }
+    },
+    {
+      "id": "system.links",
+      "title": "Relationship semantics",
+      "type": "concept",
+      "summary": "Types, directions and explanations of connections between documents.",
+      "tags": [
+        "relationships",
+        "navigation",
+        "direction"
+      ],
+      "content": "content/system.links.md",
+      "translations": {
+        "ru": {
+          "title": "Смысл связей",
+          "summary": "Типы, направления и пояснения переходов между знаниями.",
+          "tags": [
+            "связи",
+            "навигация",
+            "направление"
+          ],
+          "content": "content/ru/system.links.md"
+        }
+      }
+    },
+    {
+      "id": "system.agent",
+      "title": "AI agent workflow",
+      "type": "workflow",
+      "summary": "Discover an entry point, read documents and traverse the graph through the CLI.",
+      "tags": [
+        "AI",
+        "agent",
+        "CLI",
+        "search"
+      ],
+      "content": "content/system.agent.md",
+      "translations": {
+        "ru": {
+          "title": "Работа ИИ-агента",
+          "summary": "Поиск точки входа, чтение узла и пошаговый обход через CLI.",
+          "tags": [
+            "ИИ",
+            "агент",
+            "CLI",
+            "поиск"
+          ],
+          "content": "content/ru/system.agent.md"
+        }
+      }
+    },
+    {
+      "id": "system.human",
+      "title": "Human workflow",
+      "type": "workflow",
+      "summary": "Browse the database and add documents and relationships.",
+      "tags": [
+        "human",
+        "authoring",
+        "editing",
+        "Git"
+      ],
+      "content": "content/system.human.md",
+      "translations": {
+        "ru": {
+          "title": "Работа человека",
+          "summary": "Просмотр базы и порядок добавления документов и связей.",
+          "tags": [
+            "человек",
+            "добавление",
+            "редактирование",
+            "Git"
+          ],
+          "content": "content/ru/system.human.md"
+        }
+      }
+    },
+    {
+      "id": "system.viewer",
+      "title": "Graph viewer",
+      "type": "tool",
+      "summary": "Local browser interface with graph navigation, search and document cards.",
+      "tags": [
+        "viewer",
+        "browser",
+        "Python"
+      ],
+      "content": "content/system.viewer.md",
+      "translations": {
+        "ru": {
+          "title": "Просмотрщик графа",
+          "summary": "Локальное приложение в браузере: граф, поиск и карточки узлов.",
+          "tags": [
+            "просмотрщик",
+            "браузер",
+            "Python"
+          ],
+          "content": "content/ru/system.viewer.md"
+        }
+      }
+    },
+    {
+      "id": "system.validation",
+      "title": "Database validation",
+      "type": "reference",
+      "summary": "Integrity checks, errors, warnings and tool tests.",
+      "tags": [
+        "validation",
+        "integrity",
+        "errors",
+        "tests"
+      ],
+      "content": "content/system.validation.md",
+      "translations": {
+        "ru": {
+          "title": "Проверка базы",
+          "summary": "Проверка целостности, ошибки, предупреждения и тесты инструментов.",
+          "tags": [
+            "проверка",
+            "валидация",
+            "ошибки",
+            "тесты"
+          ],
+          "content": "content/ru/system.validation.md"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "system.overview",
+      "target": "system.format",
+      "type": "contains",
+      "label": "Read how database files and fields are organized.",
+      "translations": {
+        "ru": {
+          "label": "Перейдите сюда, чтобы узнать, как устроены файлы и поля базы."
+        }
+      }
+    },
+    {
+      "source": "system.overview",
+      "target": "system.links",
+      "type": "contains",
+      "label": "Learn what relationships mean and how to choose the next node.",
+      "translations": {
+        "ru": {
+          "label": "Перейдите сюда, чтобы понимать смысл связей и выбирать следующий узел."
+        }
+      }
+    },
+    {
+      "source": "system.overview",
+      "target": "system.agent",
+      "type": "contains",
+      "label": "Start here to read documentation through the agent CLI.",
+      "translations": {
+        "ru": {
+          "label": "Начните здесь, если нужно изучать документацию через команды агента."
+        }
+      }
+    },
+    {
+      "source": "system.overview",
+      "target": "system.human",
+      "type": "contains",
+      "label": "Start here to browse or extend the database manually.",
+      "translations": {
+        "ru": {
+          "label": "Начните здесь, если нужно просматривать или дополнять базу вручную."
+        }
+      }
+    },
+    {
+      "source": "system.overview",
+      "target": "system.viewer",
+      "type": "contains",
+      "label": "Open instructions for starting and using the graph viewer.",
+      "translations": {
+        "ru": {
+          "label": "Перейдите сюда для запуска и использования графического просмотрщика."
+        }
+      }
+    },
+    {
+      "source": "system.overview",
+      "target": "system.validation",
+      "type": "contains",
+      "label": "Check database integrity or investigate errors.",
+      "translations": {
+        "ru": {
+          "label": "Перейдите сюда для проверки базы или разбора ошибок."
+        }
+      }
+    },
+    {
+      "source": "system.links",
+      "target": "system.format",
+      "type": "explains",
+      "label": "Relationship semantics explain how to populate edges in the database format.",
+      "translations": {
+        "ru": {
+          "label": "Семантика связей поясняет, как заполнять поля edges в формате базы."
+        }
+      }
+    },
+    {
+      "source": "system.agent",
+      "target": "system.links",
+      "type": "requires",
+      "label": "Choosing the next document requires understanding relationship type and direction.",
+      "translations": {
+        "ru": {
+          "label": "Для выбора следующего документа агенту нужно понимать тип и направление связи."
+        }
+      }
+    },
+    {
+      "source": "system.agent",
+      "target": "system.validation",
+      "type": "related",
+      "label": "Consult validation if a command cannot read the database or find a node.",
+      "translations": {
+        "ru": {
+          "label": "Обратитесь к проверке, если команда не может прочитать базу или найти узел."
+        }
+      }
+    },
+    {
+      "source": "system.human",
+      "target": "system.viewer",
+      "type": "requires",
+      "label": "Use the viewer to read documents and follow graph connections.",
+      "translations": {
+        "ru": {
+          "label": "Используйте просмотрщик для чтения документов и переходов по графу."
+        }
+      }
+    },
+    {
+      "source": "system.human",
+      "target": "system.format",
+      "type": "requires",
+      "label": "Learn required fields and safe path rules before adding a node.",
+      "translations": {
+        "ru": {
+          "label": "Перед добавлением узла изучите обязательные поля и правила путей."
+        }
+      }
+    },
+    {
+      "source": "system.human",
+      "target": "system.validation",
+      "type": "requires",
+      "label": "Validate database integrity after manual edits.",
+      "translations": {
+        "ru": {
+          "label": "После ручных изменений проверьте целостность базы."
+        }
+      }
+    },
+    {
+      "source": "system.viewer",
+      "target": "system.agent",
+      "type": "related",
+      "label": "The same knowledge is available through the CLI; copied IDs work with node.",
+      "translations": {
+        "ru": {
+          "label": "Те же знания доступны агенту через CLI; скопированный ID подходит для команды node."
+        }
+      }
+    },
+    {
+      "source": "system.validation",
+      "target": "system.format",
+      "type": "requires",
+      "label": "Fix validation errors according to the format rules.",
+      "translations": {
+        "ru": {
+          "label": "Ошибки проверки исправляются согласно правилам формата."
+        }
+      }
+    },
+    {
+      "source": "system.format",
+      "target": "system.human",
+      "type": "related",
+      "label": "After learning the format, follow the document authoring workflow.",
+      "translations": {
+        "ru": {
+          "label": "После изучения формата перейдите к пошаговому добавлению документа."
+        }
+      }
+    }
+  ]
+}

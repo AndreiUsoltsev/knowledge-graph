@@ -1,0 +1,21 @@
+[project]
+name = "knowledge-graph"
+version = "0.1.0"
+description = "A local documentation graph for humans and AI agents, with a JSON CLI and bilingual browser viewer."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Andrei Usoltsev"}]
+dependencies = []
+
+[project.scripts]
+knowledge-graph = "knowledge_graph.cli:main"
+
+[project.urls]
+Repository = "https://github.com/AndreiUsoltsev/knowledge-graph"
+Issues = "https://github.com/AndreiUsoltsev/knowledge-graph/issues"
+
+[build-system]
+requires = ["uv_build>=0.11.0,<0.12.0"]
+build-backend = "uv_build"
