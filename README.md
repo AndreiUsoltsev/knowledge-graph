@@ -45,6 +45,62 @@ To connect this documentation to an agent, manually add instructions like these 
 
 > Use `knowledge-graph entry` or `knowledge-graph search "topic"` to discover documentation. Read `node ID`, inspect `neighbors ID`, and follow relevant explained relationships. Run `knowledge-graph validate` after editing the database. The documentation supplements source-code inspection.
 
+## Connect coding agents
+
+Version 0.2.0 installs a short persistent rule and an on-demand `knowledge-graph` skill for **Codex, Cursor, Claude Code and OpenCode**. Agents are instructed to use an existing database for documented architecture, behavior and conventions, then load only relevant nodes. Current source remains authoritative; CodeGraph is used first for code discovery in indexed repositories.
+
+Install project integration separately from database initialization:
+
+```powershell
+knowledge-graph agents install --dir D:/Projects/MyProject --target all
+knowledge-graph agents doctor --dir D:/Projects/MyProject --target all
+```
+
+Omit `--dir` when inside the project. Integration works before database creation and with an already populated database. It does not create or change `.knowledge-graph`, modify Git, register MCP servers or relax permissions. Restart the agent session after installation. Automatic use depends on agent configuration and instruction precedence; `doctor` checks installation files, not future model decisions.
+
+| Agent | Persistent project rule | Project skill |
+| --- | --- | --- |
+| Codex | Managed block in `AGENTS.md` | `.agents/skills/knowledge-graph/SKILL.md` |
+| OpenCode | The same block in `AGENTS.md` | The same portable skill |
+| Cursor | `.cursor/rules/knowledge-graph.mdc`, `alwaysApply: true` | The same portable skill |
+| Claude Code | Managed block in `CLAUDE.md` | `.claude/skills/knowledge-graph/SKILL.md` |
+
+The portable skill includes Codex UI metadata in `agents/openai.yaml`, with implicit invocation enabled. Instructions are English and explain both reading languages.
+
+For integration across projects on this device:
+
+```powershell
+knowledge-graph agents install --scope user --target auto
+knowledge-graph agents doctor --scope user --target auto
+```
+
+User scope installs portable skills in `~/.agents/skills`, Claude skills in `~/.claude/skills`, and rules in Codex `~/.codex/AGENTS.md`, Claude `~/.claude/CLAUDE.md` and OpenCode `~/.config/opencode/AGENTS.md`. `CODEX_HOME` and `XDG_CONFIG_HOME` are respected. **Cursor user scope installs only the skill**; project integration supplies its persistent rule. No global `.cursor/rules` directory is invented. For collaborators/cloud checkouts, commit project integration and install the CLI in the execution environment; local user skills are not automatically deployed elsewhere.
+
+`--target auto` detects executable/config directories and previous integrations. `--target all` installs all four; `--target codex,claude` selects specific agents. Project is the default scope. `--dir` applies only to project scope; top-level `--db` is not used for agent integration.
+
+Preview or remove integration:
+
+```powershell
+knowledge-graph agents install --dir D:/Projects/MyProject --target all --dry-run
+knowledge-graph agents uninstall --dir D:/Projects/MyProject --target all --dry-run
+knowledge-graph agents uninstall --dir D:/Projects/MyProject --target all
+knowledge-graph agents uninstall --scope user --target auto
+```
+
+Shared instruction files preserve text outside `KNOWLEDGE_GRAPH_START/END`. Dedicated generated skills and the Cursor rule are managed as whole files. Custom files without ownership markers are never overwritten. Malformed/duplicate markers produce `AGENT_CONFIG_CONFLICT`. Plans are checked before writing; write failures roll back completed writes. Symlink/junction customization paths are rejected. Repeated installation updates owned content without duplicates; uninstall retains artifacts still needed by another installed target. An ownership registry is stored in `.agents/knowledge-graph-integrations.json`; empty directories may remain after removal.
+
+`doctor` returns JSON with targets, file paths/statuses, discovered database, CLI path, version and warnings. Exit 0 means ready; exit 1 reports missing/outdated/conflicting installation or caveats, including Cursor user scope and Codex `AGENTS.override.md` precedence; exit 2 means invalid usage. Re-run installation after upgrading to refresh generated instructions.
+
+To upgrade an existing uv tool, first stop any GUI server on Windows:
+
+```powershell
+uv tool install --force git+https://github.com/AndreiUsoltsev/knowledge-graph.git
+knowledge-graph --version
+knowledge-graph agents install --dir D:/Projects/MyProject --target all
+```
+
+Integration follows official [Codex instructions](https://learn.chatgpt.com/docs/agent-configuration/agents-md) and [skills](https://learn.chatgpt.com/docs/build-skills), [Cursor rules](https://cursor.com/docs/rules) and [skills](https://cursor.com/docs/skills), [Claude instructions](https://code.claude.com/docs/en/memory) and [skills](https://code.claude.com/docs/en/skills), and [OpenCode rules](https://opencode.ai/docs/rules/) and [skills](https://opencode.ai/docs/skills/).
+
 ## Browser viewer
 
 `knowledge-graph gui` opens `http://127.0.0.1:8765/`. `serve` is an alias. Use `--port 8766` or `--no-browser` as needed. Stop the server with Ctrl+C. It binds only to loopback, accepts read-only HTTP requests, and exposes the packaged interface and validated graph. It does not expose arbitrary filesystem paths.

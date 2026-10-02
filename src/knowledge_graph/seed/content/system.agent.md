@@ -10,4 +10,4 @@ Load relevant documentation incrementally. CLI responses are JSON; a full docume
 
 Search requires all query terms and prioritizes IDs and titles. English is the default. Use `knowledge-graph --lang ru search "навигация"` for Russian. Untranslated nodes use their original document. Use `--db PATH` outside the project tree. Missing databases suggest `install DIR`; damaged databases require `validate` and repair.
 
-Verify knowledge against actual sources. Update focused documents and explained relationships when behavior changes. The installer never writes agent instructions; add this workflow to project instructions manually as described in the database README.
+Verify knowledge against actual sources. Update focused documents and explained relationships when behavior changes. Database initialization does not write agent instructions. Use the separate `knowledge-graph agents install --target all` command to add persistent rules and the detailed skill, then `knowledge-graph agents doctor --target all` to inspect readiness. Restart the agent session after installation. Existing database content is preserved.

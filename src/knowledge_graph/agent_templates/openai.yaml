@@ -1,0 +1,7 @@
+# KNOWLEDGE_GRAPH_MANAGED_SKILL
+interface:
+  display_name: "Knowledge Graph"
+  short_description: "Read and maintain project documentation graphs"
+  default_prompt: "Use $knowledge-graph to find the project documentation relevant to this task."
+policy:
+  allow_implicit_invocation: true

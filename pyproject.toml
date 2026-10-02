@@ -1,6 +1,6 @@
 [project]
 name = "knowledge-graph"
-version = "0.1.0"
+version = "0.2.0"
 description = "A local documentation graph for humans and AI agents, with a JSON CLI and bilingual browser viewer."
 readme = "README.md"
 requires-python = ">=3.10"

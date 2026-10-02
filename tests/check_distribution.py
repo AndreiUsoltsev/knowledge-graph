@@ -6,6 +6,7 @@ import sys
 import tarfile
 import tempfile
 import zipfile
+from knowledge_graph import __version__
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,10 +19,11 @@ def run(*args, cwd=None):
 
 
 def main():
-    wheel, = (ROOT / "dist").glob("*.whl")
-    sdist, = (ROOT / "dist").glob("*.tar.gz")
+    wheel, = (ROOT / "dist").glob(f"knowledge_graph-{__version__}-*.whl")
+    sdist, = (ROOT / "dist").glob(f"knowledge_graph-{__version__}.tar.gz")
     resources = [f"knowledge_graph/web/{name}" for name in ("index.html", "app.js", "i18n.js", "style.css")]
     resources += ["knowledge_graph/seed/graph.json", "knowledge_graph/seed/README.md"]
+    resources += [f"knowledge_graph/agent_templates/{name}" for name in ("SKILL.md", "rule.md", "openai.yaml")]
     for name in ("overview", "format", "links", "agent", "human", "viewer", "validation"):
         resources += [f"knowledge_graph/seed/content/system.{name}.md", f"knowledge_graph/seed/content/ru/system.{name}.md"]
     with zipfile.ZipFile(wheel) as archive:
@@ -51,6 +53,14 @@ def main():
         assert russian["data"]["title"] == "Работа ИИ-агента"
         assert json.loads(run(str(cli), "validate", cwd=project))["data"]["valid"]
         database = project / ".knowledge-graph"
+        installed = json.loads(run(str(cli), "agents", "install", "--dir", str(project), "--target", "all", cwd=outside))
+        assert installed["success"]
+        assert json.loads(run(str(cli), "agents", "doctor", "--dir", str(project), "--target", "all", cwd=outside))["data"]["ready"]
+        assert "name: knowledge-graph" in (project / ".agents/skills/knowledge-graph/SKILL.md").read_text(encoding="utf-8")
+        assert "alwaysApply: true" in (project / ".cursor/rules/knowledge-graph.mdc").read_text(encoding="utf-8")
+        assert json.loads(run(str(cli), "validate", cwd=project))["data"]["valid"]
+        assert json.loads(run(str(cli), "agents", "uninstall", "--dir", str(project), "--target", "all", cwd=outside))["success"]
+        assert not (project / ".agents/skills/knowledge-graph/SKILL.md").exists()
         smoke = '''
 import json, sys, threading
 from urllib.request import urlopen

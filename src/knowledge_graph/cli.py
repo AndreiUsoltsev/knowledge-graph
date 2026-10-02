@@ -5,6 +5,8 @@ import sys
 
 from .core import Graph, GraphError, LANGUAGES, RELATIONS, inspect_database
 from .database import install_database, resolve_database
+from . import __version__
+from .agents import manage_agents
 
 
 class Parser(argparse.ArgumentParser):
@@ -33,10 +35,19 @@ def parser():
     result = Parser(prog="knowledge-graph", description="Documentation knowledge graph. Data commands return JSON.")
     result.add_argument("--db", help="Exact database directory; otherwise discover the nearest .knowledge-graph")
     result.add_argument("--lang", choices=LANGUAGES, default="en", help="Document language (default: en)")
-    result.add_argument("--version", action="version", version="%(prog)s 0.1.0")
+    result.add_argument("--version", action="version", version="%(prog)s " + __version__)
     commands = result.add_subparsers(dest="command", required=True, parser_class=Parser)
     install = commands.add_parser("install", help="Initialize DIR/.knowledge-graph from packaged knowledge")
     install.add_argument("directory", nargs="?", help="Project directory (default: current directory)")
+    agents = commands.add_parser("agents", help="Install, inspect or remove agent rules and skills")
+    operations = agents.add_subparsers(dest="agent_operation", required=True, parser_class=Parser)
+    for operation in ("install", "uninstall", "doctor"):
+        command = operations.add_parser(operation, help=operation.capitalize() + " agent integration")
+        command.add_argument("--dir", help="Project directory (default: current directory)")
+        command.add_argument("--scope", choices=("project", "user"), default="project")
+        command.add_argument("--target", default="auto", help="auto, all, or comma-separated codex,cursor,claude,opencode")
+        if operation != "doctor":
+            command.add_argument("--dry-run", action="store_true", help="Preview changes without writing files")
     commands.add_parser("entry", help="List starting nodes")
     search = commands.add_parser("search", help="Search metadata and document text")
     search.add_argument("text")
@@ -74,6 +85,13 @@ def main(argv=None):
             stream.reconfigure(encoding="utf-8")
     try:
         args = parser().parse_args(argv)
+        if args.command == "agents":
+            if args.db is not None:
+                raise GraphError("USAGE_ERROR", "Agent integration uses --dir/--scope, not --db.")
+            data = manage_agents(args.agent_operation, directory=args.dir, scope=args.scope,
+                                 target=args.target, dry_run=getattr(args, "dry_run", False))
+            output({"success": True, "data": data})
+            return 1 if args.agent_operation == "doctor" and not data["ready"] else 0
         if args.command == "install":
             if args.db is not None:
                 raise GraphError("USAGE_ERROR", "install takes a project directory, not --db.")

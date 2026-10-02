@@ -1,0 +1,5 @@
+When the current project has a `.knowledge-graph/graph.json` database (including in a parent project directory), use the knowledge graph when a task needs project architecture, behavior, conventions or existing documentation. Start with `knowledge-graph entry` or `knowledge-graph search "topic"`, read a relevant `node ID`, inspect `neighbors ID`, and follow the explained relationship. Load full neighboring documents only when needed.
+
+Use the `knowledge-graph` skill for the detailed workflow. Data commands return JSON; English is the default and `--lang ru` selects Russian. The CLI discovers the nearest database; `--db PATH` selects an exact database directory.
+
+Documentation supplements current source inspection. When `.codegraph/` exists, use CodeGraph first to locate or understand code. Check source freshness where the project provides an audit. After meaningful behavior changes, update affected documents and relationships and run `knowledge-graph validate`. If no database exists, continue normally; create one only when requested.
